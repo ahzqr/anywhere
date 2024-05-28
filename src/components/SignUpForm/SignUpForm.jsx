@@ -2,14 +2,15 @@ import debug from "debug";
 import { Component } from "react";
 import { signUp } from "../../utilities/users-service";
 
-const log = debug("mern:components:SignUpForm");
+const log = debug("anywhere:components:SignUpForm");
 
 export default class SignUpForm extends Component {
   state = {
+    name: "",
     username: "",
     email: "",
     password: "",
-    confirm: ""
+    confirm: "",
   };
 
   handleChange = (event) => {
@@ -34,55 +35,61 @@ export default class SignUpForm extends Component {
   };
 
   render() {
+    const disable = this.state.password !== this.state.confirm;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <fieldset>
-          <legend>SignUp</legend>
-
-          <label>
-            Username:
-            <input
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </label>
-          <br />
-
-          <label>
-            Email:
-            <input
-              name="email"
-              value={this.state.email}
-              onChange={this.handleChange}
-            />
-          </label>
-          <br />
-
-          <label>
-            Password:
-            <input
-              name="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </label>
-          <br />
-
-          <label>
-            Confirm:
-            <input
-              name="confirm"
-              value={this.state.confirm}
-              onChange={this.handleChange}
-            />
-          </label>
-          <br />
-
-          <button>Sign Up</button>
-          <p>{this.state.error} </p>
-        </fieldset>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="name">Full Name</label>
+          <input
+            id="name"
+            type="text"
+            name="name"
+            value={this.state.name}
+            onChange={this.handleChange}
+            required
+          />
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            value={this.state.username}
+            onChange={this.handleChange}
+            required
+          />
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={this.state.email}
+            onChange={this.handleChange}
+            required
+          />
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            minLength="3"
+            value={this.state.password}
+            onChange={this.handleChange}
+            required
+          />
+          <label htmlFor="confirm-password">Confirm Password</label>
+          <input
+            id="confirm-password"
+            type="password"
+            name="confirm"
+            value={this.state.confirm}
+            onChange={this.handleChange}
+            required
+          />
+          <button type="submit" disabled={disable}>
+            SIGN UP
+          </button>
+        </form>
+      </div>
     );
   }
 }

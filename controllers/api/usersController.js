@@ -9,10 +9,10 @@ const createJWT = (user) =>
 
 const create = async (req, res) => {
   debug("body: %o", req.body);
-  const { username, email, password } = req.body;
+  const { name, username, email, password } = req.body;
 
   try {
-    const user = await User.create({ username, email, password });
+    const user = await User.create({ name, username, email, password });
     debug("user: %o", user);
     const token = createJWT(user);
     res.status(201).json(token);
