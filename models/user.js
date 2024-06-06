@@ -28,6 +28,25 @@ const userSchema = new Schema(
       minLength: 3,
       required: true,
     },
+    profilepic: {
+      type: String,
+      default: "assets/default_avatar.png"
+    },
+    bio: {
+      type: String
+    },
+    followers: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    ],
+    following: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    ],
+    savedPosts: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Post" }
+    ],
+    savedItineraries: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Itinerary" }
+    ],
   },
   {
     timestamps: true,
