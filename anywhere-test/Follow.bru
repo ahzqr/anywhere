@@ -1,0 +1,20 @@
+meta {
+  name: Follow
+  type: http
+  seq: 17
+}
+
+post {
+  url: http://localhost:3000/api/users/66558695fa6b9da5dab16a7e/follow
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Google",
+    "username": "google",
+    "email": "google@google.co",
+    "password": "123"
+  }
+}

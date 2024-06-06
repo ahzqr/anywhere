@@ -46,8 +46,59 @@ const checkToken = (req, res) => {
   res.json({ user });
 };
 
+const createFollow = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const currentUser = await User.findById(req.user.id);
+    const following = await User.findById(userId);
+
+    if (following.id === req.user.id) {
+      res.status(400).json({ message: "You cannot follow yourself" });
+    }
+
+    if (!following.followers.includes(req.user.id)) {
+      following.followers.push(req.user.id);
+      await following.save();
+
+      currentUser.following.push(userId);
+      await currentUser.save();
+
+      return res.status(200).json({ message: "User followed sucessfully!" });
+    } else {
+      return res.status(400).json({ message: "You are already following this user" });
+    }
+
+  } catch (error) {
+    debug("error: %o", error);
+    res.status(500).json({ error });
+  }
+}
+
+const deleteFollow = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const currentUser = await User.findById(req.user.id);
+    const unfollowing = await User.findById(userId);
+
+    if (unfollowing.followers.includes(req.user.id)) {
+      unfollowing.followers = unfollowing.followers.filter(userId => userId.toString() !== req.user.id)
+      await unfollowing.save();
+
+      currentUser.following = currentUser.following.filter(fUserId => fUserId.toString() !== userId)
+      await currentUser.save();
+
+      return res.status(200).json({ message: "User unfollowed sucessfully!" });
+    }
+  } catch (error) {
+    debug("error: %o", error);
+    res.status(500).json({ error });
+  }
+}
+
 module.exports = {
   create,
   login,
   checkToken,
+  createFollow,
+  deleteFollow
 };

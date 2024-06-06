@@ -1,0 +1,17 @@
+meta {
+  name: Delete Comment Post
+  type: http
+  seq: 20
+}
+
+delete {
+  url: http://localhost:3000/api/content/posts/6661f781d393b95815c4bf03/comments/666210881f3b574dabfdf85e
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "content": "Thank you for sharing!"
+  }
+}

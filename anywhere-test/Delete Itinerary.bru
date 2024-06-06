@@ -1,0 +1,40 @@
+meta {
+  name: Delete Itinerary
+  type: http
+  seq: 8
+}
+
+delete {
+  url: http://localhost:3000/api/content/itineraries/6661e6f3b6646d7e5a781abb
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "user": "665585f7fa6b9da5dab16a7c",
+    "title": "Japan Solo!",
+    "description": "Solo Travel on a budget",
+    "coverPhoto": "https://flic.kr/p/24NBtRa",
+    "location": "Japan",
+    "travelDates": {
+      "start": "2024-01-01",
+      "end": "2024-01-10"
+    },
+    "itinerary": [
+      {
+        "day": 1,
+        "date": "2024-01-01",
+        "location": "Tokyo",
+        "activities": "Go to Shibuya Crossing and then proceed to Starbucks for breakfast"
+      },
+      {
+        "day": 2,
+        "date": "2024-01-02",
+        "location": "Kyoto",
+        "activities": "Go to Kyoto by Bullet Train"
+      }
+    ],
+    "experienceType": "Adventure"
+  }
+}

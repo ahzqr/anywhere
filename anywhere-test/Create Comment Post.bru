@@ -1,0 +1,26 @@
+meta {
+  name: Create Comment Post
+  type: http
+  seq: 19
+}
+
+post {
+  url: http://localhost:3000/api/content/posts
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "user": "665585f7fa6b9da5dab16a7c",
+    "images": "https://flic.kr/p/24NBtRa",
+    "caption": "Best Photo Taken!",
+    "location": "Amsterdam",
+    "travelDates": {
+      "start": "2024-01-01",
+      "end": "2024-01-10"
+    },
+    "experienceType": "Nature",
+    "tips": "Be Ready"
+  }
+}
