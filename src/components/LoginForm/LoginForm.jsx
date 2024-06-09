@@ -15,7 +15,7 @@ export default function LoginForm({ setUser }) {
     const { username, password } = data;
     const user = await login(username, password);
     setUser(user);
-    navigate("/orders");
+    navigate("/feed");
   };
 
   return (
