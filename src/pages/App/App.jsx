@@ -1,9 +1,12 @@
 import debug from "debug";
 import { useState } from "react";
-import { Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import AuthPage from "../AuthPage/AuthPage";
 import { getUser } from "../../utilities/users-service";
 import NavBar from "../../components/NavBar/NavBar";
+import AddPost from "../../components/AddPost/AddPost";
+import FeedPage from "../FeedPage/FeedPage";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 const log = debug("mern:pages:App:App");
 
@@ -34,7 +37,11 @@ export default function App() {
       <>
         <main className="App">
           <NavBar setUser={setUser} />
-          <Routes></Routes>
+          <Routes>
+            <Route path="/post" element={<AddPost />} />
+            <Route path="/feed" element={<FeedPage user={user} />} />
+            <Route path="/profile/:userId" element={<ProfilePage user={user} />} />
+          </Routes>
         </main>
       </>
     );
