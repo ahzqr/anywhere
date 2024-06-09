@@ -22,6 +22,8 @@ app.get("/api", (req, res) => {
 });
 app.use("/api/users", require("./routes/api/usersRoutes"));
 app.use("/api/content", require("./routes/api/postsRoutes"));
+app.use("/api/feed", require("./routes/api/feedRoutes"));
+
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX requests
