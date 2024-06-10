@@ -36,10 +36,10 @@ const userSchema = new Schema(
       type: String
     },
     followers: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
     ],
     following: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] }
     ],
     savedPosts: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Post" }
