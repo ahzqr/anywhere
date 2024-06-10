@@ -71,7 +71,7 @@ export default function ProfilePage() {
             {posts.map((post) => (
               <div key={post._id}>
                 {post.images.map((image) => (
-                  <img src={image} key />
+                  <img src={image} key={post._id} />
                 ))}
                 <p>{post.caption}</p>
               </div>
@@ -82,7 +82,7 @@ export default function ProfilePage() {
             {itineraries.map((itinerary) => (
               <div key={itinerary._id}>
                 {itinerary.coverPhoto.map((image) => (
-                  <img src={image} key />
+                  <img src={image} key={itinerary._id} />
                 ))}
               </div>
             ))}
