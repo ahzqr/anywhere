@@ -12,7 +12,7 @@ const createPost = async (req, res) => {
 
   try {
     const newPost = new Post({
-      // user: req.user.id,
+      user: req.user.id,
       images,
       caption,
       location,
@@ -31,7 +31,7 @@ const createPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   debug("body: %o", req.body);
-  const { postId } = req.params;
+  const { postId, userId } = req.params;
 
   try {
     const post = await Post.findById(postId);
@@ -40,9 +40,9 @@ const deletePost = async (req, res) => {
       return res.status(404).json({ message: "Post does not exist" });
     }
 
-    // if (post.user.toString() !== req.user.id) {
-    //   return res.status(403).json({ message: "Unauthorized access" });
-    // }
+    if (post.user.toString() !== userId) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
 
     await post.deleteOne();
     res.status(200).json({ message: "Post deleted" });
@@ -55,7 +55,7 @@ const deletePost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   debug("body: %o", req.body);
-  const { postId } = req.params;
+  const { postId, userId } = req.params;
   const { images, caption, location, travelDates, experienceType, tips } = req.body;
 
   try {
@@ -65,9 +65,9 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ message: "Post does not exist" });
     }
 
-    // if (post.user.toString() !== req.user.id) {
-    //   return res.status(403).json({ message: "Unauthorized access" });
-    // }
+    if (post.user.toString() !== userId) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
 
     post.images = images;
     post.caption = caption;
@@ -85,11 +85,11 @@ const updatePost = async (req, res) => {
 };
 
 const likePost = async (req, res) => {
-  const { postId } = req.params;
+  const { userId, postId } = req.params;
   try {
     const post = await Post.findById(postId);
-    if (!post.likes.includes(req.user.id)) {
-      post.likes.push(req.user.id);
+    if (!post.likes.includes(userId)) {
+      post.likes.push(userId);
       await post.save();
       res.status(200).json({ message: "Post liked" })
     } else {
@@ -102,11 +102,11 @@ const likePost = async (req, res) => {
 }
 
 const unlikePost = async (req, res) => {
-  const { postId } = req.params;
+  const { userId, postId } = req.params;
   try {
     const post = await Post.findById(postId);
-    if (post.likes.includes(req.user.id)) {
-      post.likes = post.likes.filter(userId => userId.toString() !== req.user.id);
+    if (post.likes.includes(userId)) {
+      post.likes = post.likes.filter(userId => userId.toString() !== userId);
       await post.save();
       res.status(200).json({ message: "Post unliked" })
     }
@@ -118,7 +118,7 @@ const unlikePost = async (req, res) => {
 
 const savePost = async (req, res) => {
   debug("body: %o", req.body);
-  const { postId } = req.params;
+  const { userId, postId } = req.params;
 
   try {
     const post = await Post.findById(postId);
@@ -126,7 +126,7 @@ const savePost = async (req, res) => {
     if (!post) {
       return res.status(404).json({ message: "Post does not exist" });
     }
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(userId);
     if (!user.savedPosts.includes(postId)) {
       user.savedPosts.push(postId);
       await user.save();
@@ -142,10 +142,10 @@ const savePost = async (req, res) => {
 
 const unsavePost = async (req, res) => {
   debug("body: %o", req.body);
-  const { postId } = req.params;
+  const { userId, postId } = req.params;
 
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(userId);
     if (user.savedPosts.includes(postId)) {
       user.savedPosts = user.savedPosts.filter(sPostId => sPostId.toString() !== postId);
       await user.save();
@@ -159,14 +159,14 @@ const unsavePost = async (req, res) => {
 
 const createCommentPost = async (req, res) => {
   const { content } = req.body;
-  const { postId } = req.params;
+  const { postId, userId } = req.params;
   try {
     const post = await Post.findById(postId);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
     const comment = new Comment({
-      user: req.user.id,
+      user: userId,
       content
     });
 
@@ -184,7 +184,7 @@ const createCommentPost = async (req, res) => {
 }
 
 const deleteCommentPost = async (req, res) => {
-  const { postId, commentId } = req.params;
+  const { postId, commentId, userId } = req.params;
   try {
     const post = await Post.findById(postId);
     if (!post) {
@@ -196,7 +196,7 @@ const deleteCommentPost = async (req, res) => {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    if (comment.user.toString() !== req.user.id) {
+    if (comment.user.toString() !== userId) {
       return res.status(403).json({ message: "Unauthorized" });
     }
     post.comments = post.comments.filter(pCommentId => pCommentId.toString() !== commentId)
@@ -220,7 +220,7 @@ const createItinerary = async (req, res) => {
 
   try {
     const newItinerary = new Itinerary({
-      // user: req.user.id,
+      user: req.user.id,
       title,
       description,
       coverPhoto,
@@ -240,7 +240,7 @@ const createItinerary = async (req, res) => {
 
 const deleteItinerary = async (req, res) => {
   debug("body: %o", req.body);
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
 
   try {
     const itinerary = await Itinerary.findById(itineraryId);
@@ -249,9 +249,9 @@ const deleteItinerary = async (req, res) => {
       return res.status(404).json({ message: "Itinerary does not exist" });
     }
 
-    // if (itinerary.user.toString() !== req.user.id) {
-    //   return res.status(403).json({ message: "Unauthorized access" });
-    // }
+    if (itinerary.user.toString() !== userId) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
 
     await itinerary.deleteOne();
     res.status(200).json({ message: "Itinerary deleted" });
@@ -264,7 +264,7 @@ const deleteItinerary = async (req, res) => {
 
 const updateItinerary = async (req, res) => {
   debug("body: %o", req.body);
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
   const { title, description, coverPhoto, location, travelDates, plan, experienceType } = req.body;
 
   try {
@@ -274,9 +274,9 @@ const updateItinerary = async (req, res) => {
       return res.status(404).json({ message: "Itinerary does not exist" });
     }
 
-    // if (itinerary.user.toString() !== req.user.id) {
-    //   return res.status(403).json({ message: "Unauthorized access" });
-    // }
+    if (itinerary.user.toString() !== userId) {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
 
     itinerary.title = title;
     itinerary.description = description;
@@ -295,11 +295,11 @@ const updateItinerary = async (req, res) => {
 };
 
 const likeItinerary = async (req, res) => {
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
   try {
     const itinerary = await Itinerary.findById(itineraryId);
-    if (!itinerary.likes.includes(req.user.id)) {
-      itinerary.likes.push(req.user.id);
+    if (!itinerary.likes.includes(userId)) {
+      itinerary.likes.push(userId);
       await itinerary.save();
       res.status(200).json({ message: "Post liked" })
     } else {
@@ -312,11 +312,11 @@ const likeItinerary = async (req, res) => {
 }
 
 const unlikeItinerary = async (req, res) => {
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
   try {
     const itinerary = await Itinerary.findById(itineraryId);
-    if (itinerary.likes.includes(req.user.id)) {
-      itinerary.likes = itinerary.likes.filter(userId => userId.toString() !== req.user.id);
+    if (itinerary.likes.includes(userId)) {
+      itinerary.likes = itinerary.likes.filter(userId => userId.toString() !== userId);
       await itinerary.save();
       res.status(200).json({ message: "Itinerary unliked" })
     }
@@ -328,7 +328,7 @@ const unlikeItinerary = async (req, res) => {
 
 const saveItinerary = async (req, res) => {
   debug("body: %o", req.body);
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
 
   try {
     const itinerary = await Itinerary.findById(itineraryId);
@@ -336,7 +336,7 @@ const saveItinerary = async (req, res) => {
     if (!itinerary) {
       return res.status(404).json({ message: "Itinerary does not exist" });
     }
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(userId);
     if (!user.savedItineraries.includes(itineraryId)) {
       user.savedItineraries.push(itineraryId);
       await user.save();
@@ -352,10 +352,10 @@ const saveItinerary = async (req, res) => {
 
 const unsaveItinerary = async (req, res) => {
   debug("body: %o", req.body);
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
 
   try {
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(userId);
     if (user.savedItineraries.includes(itineraryId)) {
       user.savedItineraries = user.savedItineraries.filter(sItineraryId => sItineraryId.toString() !== itineraryId);
       await user.save();
@@ -369,14 +369,14 @@ const unsaveItinerary = async (req, res) => {
 
 const createCommentItinerary = async (req, res) => {
   const { content } = req.body;
-  const { itineraryId } = req.params;
+  const { itineraryId, userId } = req.params;
   try {
     const itinerary = await Itinerary.findById(itineraryId);
     if (!itinerary) {
       return res.status(404).json({ message: "Itinerary not found" });
     }
     const comment = new Comment({
-      user: req.user.id,
+      user: userId,
       content
     });
 
@@ -394,7 +394,7 @@ const createCommentItinerary = async (req, res) => {
 }
 
 const deleteCommentItinerary = async (req, res) => {
-  const { itineraryId, commentId } = req.params;
+  const { itineraryId, commentId, userId } = req.params;
   try {
     const itinerary = await Itinerary.findById(itineraryId);
     if (!itinerary) {
@@ -406,7 +406,7 @@ const deleteCommentItinerary = async (req, res) => {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    if (comment.user.toString() !== req.user.id) {
+    if (comment.user.toString() !== userId) {
       return res.status(403).json({ message: "Unauthorized" });
     }
     itinerary.comments = itinerary.comments.filter(pCommentId => pCommentId.toString() !== commentId)
