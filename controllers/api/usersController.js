@@ -2,6 +2,8 @@ const debug = require("debug")("mern:controllers:api:usersController");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../../models/user");
+const Post = require("../../models/post");
+const Itinerary = require("../../models/itinerary");
 const { getUser } = require("../../config/checkToken");
 
 const createJWT = (user) =>
@@ -48,19 +50,20 @@ const checkToken = (req, res) => {
 
 const createFollow = async (req, res) => {
   const { userId } = req.params;
+  console.log(res.locals.user);
   try {
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(res.locals.user._id);
     const following = await User.findById(userId);
 
-    if (following.id === req.user.id) {
+    if (following.id === res.locals.user._id) {
       res.status(400).json({ message: "You cannot follow yourself" });
     }
 
-    if (!following.followers.includes(req.user.id)) {
-      following.followers.push(req.user.id);
+    if (!following.followers.includes(res.locals.user._id)) {
+      following.followers.push(res.locals.user._id);
       await following.save();
 
-      currentUser.following.push(userId);
+      currentUser.following.push(res.locals.user._id);
       await currentUser.save();
 
       return res.status(200).json({ message: "User followed sucessfully!" });
@@ -77,11 +80,11 @@ const createFollow = async (req, res) => {
 const deleteFollow = async (req, res) => {
   const { userId } = req.params;
   try {
-    const currentUser = await User.findById(req.user.id);
+    const currentUser = await User.findById(userId);
     const unfollowing = await User.findById(userId);
 
-    if (unfollowing.followers.includes(req.user.id)) {
-      unfollowing.followers = unfollowing.followers.filter(userId => userId.toString() !== req.user.id)
+    if (unfollowing.followers.includes(userId)) {
+      unfollowing.followers = unfollowing.followers.filter(userId => userId.toString() !== userId)
       await unfollowing.save();
 
       currentUser.following = currentUser.following.filter(fUserId => fUserId.toString() !== userId)
@@ -95,10 +98,48 @@ const deleteFollow = async (req, res) => {
   }
 }
 
+const getFeedById = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).populate("following");
+    console.log(user);
+    const followingIds = user.following.map(user => user._id);
+
+    const posts = await Post.find({ user: { $in: followingIds } }).populate({
+      path: "comments",
+      populate: { path: "user" }
+    }).sort({ createdAt: -1 });
+    const itineraries = await Itinerary.find({ user: { $in: followingIds } }).populate({
+      path: "comments",
+      populate: { path: "user" }
+    }).sort({ createdAt: -1 });
+
+    res.json({ posts, itineraries });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving user feed" });
+  }
+};
+
+const getProfile = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).populate("following");
+    const posts = await Post.find({ user: userId });
+    const itineraries = await Itinerary.find({ user: userId });
+    res.json({ user, posts, itineraries });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving profile" });
+  }
+}
+
 module.exports = {
   create,
   login,
   checkToken,
   createFollow,
-  deleteFollow
+  deleteFollow,
+  getFeedById,
+  getProfile
 };
