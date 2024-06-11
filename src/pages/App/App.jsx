@@ -7,6 +7,8 @@ import NavBar from "../../components/NavBar/NavBar";
 import AddPost from "../../components/AddPost/AddPost";
 import FeedPage from "../FeedPage/FeedPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
+import AdminDashboard from "../AdminDashboard/AdminDashboard";
+import SavedContent from "../../components/SavedContent/SavedContent";
 
 const log = debug("mern:pages:App:App");
 
@@ -28,7 +30,16 @@ export default function App() {
       <>
         <main className="App">
           <NavBar setUser={setUser} />
-          <Routes></Routes>
+          <Routes>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/saved" element={<SavedContent />} />
+            <Route path="/post" element={<AddPost />} />
+            <Route path="/feed" element={<FeedPage user={user} />} />
+            <Route
+              path="/profile/:userId"
+              element={<ProfilePage user={user} />}
+            />
+          </Routes>
         </main>
       </>
     );
@@ -40,7 +51,11 @@ export default function App() {
           <Routes>
             <Route path="/post" element={<AddPost />} />
             <Route path="/feed" element={<FeedPage user={user} />} />
-            <Route path="/profile/:userId" element={<ProfilePage user={user} />} />
+            <Route
+              path="/profile/:userId"
+              element={<ProfilePage user={user} />}
+            />
+            <Route path="/saved" element={<SavedContent />} />
           </Routes>
         </main>
       </>
