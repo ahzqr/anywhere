@@ -48,22 +48,37 @@ const checkToken = (req, res) => {
   res.json({ user });
 };
 
-const createFollow = async (req, res) => {
+const getFollowingStatus = async (req, res) => {
   const { userId } = req.params;
-  console.log(res.locals.user);
+  const user = getUser(req, res);
   try {
-    const currentUser = await User.findById(res.locals.user._id);
     const following = await User.findById(userId);
 
-    if (following.id === res.locals.user._id) {
+    const isFollowing = following.followers.includes(user._id);
+    return res.status(200).json({ following: isFollowing });
+
+  } catch (error) {
+    debug("error: %o", error);
+    res.status(500).json({ error });
+  }
+}
+
+const createFollow = async (req, res) => {
+  const { userId } = req.params;
+  const user = getUser(req, res);
+  try {
+    const currentUser = await User.findById(user._id);
+    const following = await User.findById(userId);
+
+    if (userId === user._id) {
       res.status(400).json({ message: "You cannot follow yourself" });
     }
 
-    if (!following.followers.includes(res.locals.user._id)) {
-      following.followers.push(res.locals.user._id);
+    if (!following.followers.includes(user._id)) {
+      following.followers.push(user._id);
       await following.save();
 
-      currentUser.following.push(res.locals.user._id);
+      currentUser.following.push(userId);
       await currentUser.save();
 
       return res.status(200).json({ message: "User followed sucessfully!" });
@@ -79,12 +94,13 @@ const createFollow = async (req, res) => {
 
 const deleteFollow = async (req, res) => {
   const { userId } = req.params;
+  const user = getUser(req, res);
   try {
-    const currentUser = await User.findById(userId);
+    const currentUser = await User.findById(user._id);
     const unfollowing = await User.findById(userId);
 
-    if (unfollowing.followers.includes(userId)) {
-      unfollowing.followers = unfollowing.followers.filter(userId => userId.toString() !== userId)
+    if (unfollowing.followers.includes(user._id)) {
+      unfollowing.followers = unfollowing.followers.filter(userId => userId.toString() !== user._id)
       await unfollowing.save();
 
       currentUser.following = currentUser.following.filter(fUserId => fUserId.toString() !== userId)
@@ -102,14 +118,20 @@ const getFeedById = async (req, res) => {
   const { userId } = req.params;
   try {
     const user = await User.findById(userId).populate("following");
-    console.log(user);
     const followingIds = user.following.map(user => user._id);
+    followingIds.push(userId);
 
     const posts = await Post.find({ user: { $in: followingIds } }).populate({
+      path: "user",
+      select: "username"
+    }).populate({
       path: "comments",
       populate: { path: "user" }
     }).sort({ createdAt: -1 });
     const itineraries = await Itinerary.find({ user: { $in: followingIds } }).populate({
+      path: "user",
+      select: "username"
+    }).populate({
       path: "comments",
       populate: { path: "user" }
     }).sort({ createdAt: -1 });
@@ -134,12 +156,36 @@ const getProfile = async (req, res) => {
   }
 }
 
+const getSavedContent = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).populate({
+      path: "savedPosts",
+      model: "Post"
+    }).populate({
+      path: "savedItineraries",
+      model: "Itinerary"
+    });
+
+    res.json({
+      savedPosts: user.savedPosts,
+      savedItineraries: user.savedItineraries
+    });
+
+  } catch (error) {
+    debug("error: %o", error);
+    res.status(500).json({ error });
+  }
+}
+
 module.exports = {
   create,
   login,
   checkToken,
   createFollow,
   deleteFollow,
+  getFollowingStatus,
   getFeedById,
-  getProfile
+  getProfile,
+  getSavedContent
 };
