@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { getUser } from "../../utilities/users-service";
+import { useNavigate } from "react-router-dom";
 
 export default function AddPost() {
   const [postType, setPostType] = useState("normalPost");
@@ -6,7 +8,10 @@ export default function AddPost() {
     images: [],
     caption: "",
     location: "",
-    travelDates: [],
+    travelDates: {
+      start: "",
+      end: "",
+    },
     experienceType: "",
     tips: "",
     title: "",
@@ -14,22 +19,34 @@ export default function AddPost() {
     coverPhoto: "",
     plan: [],
   });
+  const user = getUser();
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name.includes("travelDates")) {
+      const [field, subField] = name.split('.');
+      setFormData({
+       ...formData,
+        [field]: {
+         ...formData[field],
+          [subField]: value,
+        },
+      });
+    } else {
+      setFormData({
+       ...formData,
+        [name]: value,
+      });
+    }
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const url =
       postType === "normalPost"
-        ? "/api/content/posts"
-        : "/api/content/itineraries";
+        ? `/api/content/posts/${user._id}`
+        : `/api/content/itineraries/${user._id}`;
 
     try {
       const response = await fetch(url, {
@@ -42,6 +59,7 @@ export default function AddPost() {
 
       const data = await response.json();
       console.log(data);
+      navigate("/feed");
     } catch (error) {
       console.error("There was an error creating the post!", error);
     }
@@ -104,12 +122,24 @@ export default function AddPost() {
             </label>
             <label>
               Travel Dates:
-              <input
-                type="date"
-                name="travelDates"
-                value={formData.travelDates}
-                onChange={handleChange}
-              />
+              <label>
+                Start Date:
+                <input
+                  type="date"
+                  name="travelDates.start"
+                  value={formData.travelDates.start}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                End Date:
+                <input
+                  type="date"
+                  name="travelDates.end"
+                  value={formData.travelDates.end}
+                  onChange={handleChange}
+                />
+              </label>
             </label>
             <label>
               Experience Type:
@@ -164,12 +194,24 @@ export default function AddPost() {
             </label>
             <label>
               Travel Dates:
-              <input
-                type="date"
-                name="travelDates"
-                value={formData.travelDates}
-                onChange={handleChange}
-              />
+              <label>
+                Start Date:
+                <input
+                  type="date"
+                  name="travelDates.start"
+                  value={formData.travelDates.start}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                End Date:
+                <input
+                  type="date"
+                  name="travelDates.end"
+                  value={formData.travelDates.end}
+                  onChange={handleChange}
+                />
+              </label>
             </label>
             <label>
               Plans:
