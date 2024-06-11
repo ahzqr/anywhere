@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const logger = require("morgan");
-const debug = require("debug")("mern:server");
+const debug = require("debug")("anywhere:server");
 // Always require and configure near the top
 require("dotenv").config();
 require("./config/database");
@@ -23,6 +23,7 @@ app.get("/api", (req, res) => {
 app.use("/api/users", require("./routes/api/usersRoutes"));
 app.use("/api/content", require("./routes/api/postsRoutes"));
 app.use("/api/feed", require("./routes/api/feedRoutes"));
+app.use("/api/admin", require("./routes/api/adminRoutes"));
 
 
 // The following "catch all" route (note the *) is necessary
