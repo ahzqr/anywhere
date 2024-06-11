@@ -47,6 +47,10 @@ const userSchema = new Schema(
     savedItineraries: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Itinerary" }
     ],
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
