@@ -4,15 +4,15 @@ const User = require("../../models/user");
 const Post = require("../../models/post");
 const Itinerary = require("../../models/itinerary");
 const Comment = require("../../models/comment");
-// const { getUser } = require("../../config/checkToken");
 
 const createPost = async (req, res) => {
+  const { userId } = req.params;
   debug("body: %o", req.body);
   const { images, caption, location, travelDates, experienceType, tips } = req.body;
 
   try {
     const newPost = new Post({
-      user: req.user.id,
+      user: userId,
       images,
       caption,
       location,
@@ -84,6 +84,16 @@ const updatePost = async (req, res) => {
   }
 };
 
+const getPostLikes = async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const post = await Post.findById(postId);
+    res.status(200).json({ likes: post.likes });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+}
+
 const likePost = async (req, res) => {
   const { userId, postId } = req.params;
   try {
@@ -106,7 +116,7 @@ const unlikePost = async (req, res) => {
   try {
     const post = await Post.findById(postId);
     if (post.likes.includes(userId)) {
-      post.likes = post.likes.filter(userId => userId.toString() !== userId);
+      post.likes = post.likes.filter(id => id.toString() !== userId);
       await post.save();
       res.status(200).json({ message: "Post unliked" })
     }
@@ -294,6 +304,16 @@ const updateItinerary = async (req, res) => {
   }
 };
 
+const getItinerarylikes = async (req, res) => {
+  const { itineraryId } = req.params;
+  try {
+    const itinerary = await Itinerary.findById(itineraryId);
+    res.status(200).json({ likes: itinerary.likes });
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+}
+
 const likeItinerary = async (req, res) => {
   const { itineraryId, userId } = req.params;
   try {
@@ -316,7 +336,7 @@ const unlikeItinerary = async (req, res) => {
   try {
     const itinerary = await Itinerary.findById(itineraryId);
     if (itinerary.likes.includes(userId)) {
-      itinerary.likes = itinerary.likes.filter(userId => userId.toString() !== userId);
+      itinerary.likes = itinerary.likes.filter(id => id.toString() !== userId);
       await itinerary.save();
       res.status(200).json({ message: "Itinerary unliked" })
     }
@@ -427,6 +447,7 @@ module.exports = {
   createPost,
   deletePost,
   updatePost,
+  getPostLikes,
   likePost,
   unlikePost,
   savePost,
@@ -436,6 +457,7 @@ module.exports = {
   createItinerary,
   deleteItinerary,
   updateItinerary,
+  getItinerarylikes,
   likeItinerary,
   unlikeItinerary,
   saveItinerary,
