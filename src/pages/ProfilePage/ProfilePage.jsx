@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getUser } from "../../utilities/users-service";
+import sendRequest from "../../utilities/send-request";
 
 export default function ProfilePage() {
   const [posts, setPosts] = useState([]);
@@ -8,33 +10,52 @@ export default function ProfilePage() {
   const [showPosts, setShowPosts] = useState(true);
   const [isFollowing, setIsFollowing] = useState(false);
   const { userId } = useParams();
+  const currentUser = getUser();
 
   useEffect(() => {
-    fetch(`/api/users/${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const data = await sendRequest(`/api/users/${userId}`, "GET");
         setUser(data.user);
         setPosts(data.posts);
         setItineraries(data.itineraries);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      } catch (error) {
+        console.error("Error fetching details:", error);
+      }
+    };
+    fetchData();
   }, [userId]);
 
-  const handleFollow = () => {
-    fetch(`/api/users/${userId}/follow`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ followerId: userId }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
+  useEffect(() => {
+    const checkFollowing = async () => {
+      try {
+        const data = await sendRequest(`/api/users/${userId}/following`, "GET");
         setIsFollowing(data.following);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+    if (userId !== currentUser._id) {
+      checkFollowing();
+    }
+  }, [currentUser._id, userId]);
+
+  const handleFollow = async () => {
+    try {
+      const data = await sendRequest(`/api/users/${userId}/follow`, "POST");
+      setIsFollowing(data.following);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUnfollow = async () => {
+    try {
+      const data = await sendRequest(`/api/users/${userId}/unfollow`, "DELETE");
+      setIsFollowing(data.following);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleToggle = (type) => {
@@ -54,8 +75,10 @@ export default function ProfilePage() {
           <p>{user.location}</p>
           <p>{user?.following?.length} following</p>
           <p>{user?.followers?.length} followers</p>
-          {isFollowing ? (
-            <button onClick={handleFollow}>Unfollow</button>
+          {currentUser._id === userId ? (
+            ""
+          ) : isFollowing ? (
+            <button onClick={handleUnfollow}>Unfollow</button>
           ) : (
             <button onClick={handleFollow}>Follow</button>
           )}
