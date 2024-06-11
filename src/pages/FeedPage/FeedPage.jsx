@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function FeedPage({ user }) {
   const [feed, setFeed] = useState({ posts: [], itineraries: [] });
   const [loading, setLoading] = useState(true);
+  // eslint-disable-next-line no-unused-vars
+  const [likes, setLikes] = useState({});
 
   useEffect(() => {
     const fetchFeed = async () => {
@@ -25,6 +28,7 @@ export default function FeedPage({ user }) {
       await fetch(`/api/content/${type}/${id}/like/${user._id}`, {
         method: "POST",
       });
+      setLikes((prevLikes) => ({ ...prevLikes, [id]: true }));
     } catch (error) {
       console.error("Failed to like", error);
     }
@@ -35,6 +39,7 @@ export default function FeedPage({ user }) {
       await fetch(`/api/content/${type}/${id}/unlike/${user._id}`, {
         method: "DELETE",
       });
+      setLikes((prevLikes) => ({ ...prevLikes, [id]: false }));
     } catch (error) {
       console.error("Failed to unlike", error);
     }
@@ -74,12 +79,45 @@ export default function FeedPage({ user }) {
     }
   };
 
+  const FetchLikes = ({ id, type, user }) => {
+    const [isLiked, setIsLiked] = useState(false);
+
+    useEffect(() => {
+      const fetchLikes = async () => {
+        try {
+          const response = await fetch(
+            `/api/content/${type}/${id}/like/${user._id}`
+          );
+          const data = await response.json();
+          setIsLiked(data.likes.includes(user._id));
+        } catch (error) {
+          console.error("Failed to fetch likes", error);
+        }
+      };
+
+      fetchLikes();
+    }, [id, type, user._id]);
+
+    return (
+      <div>
+        {isLiked ? (
+          <button onClick={() => handleUnlike(id, type)}>Unlike</button>
+        ) : (
+          <button onClick={() => handleLike(id, type)}>Like</button>
+        )}
+      </div>
+    );
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
+      <button>
+        <Link to="/post">Add New Post </Link>
+      </button>
       <h2>Your Feed</h2>
       {feed.posts.length === 0 && feed.itineraries.length === 0 ? (
         <p>No posts to display</p>
@@ -87,18 +125,20 @@ export default function FeedPage({ user }) {
         <div>
           {feed.posts.map((post) => (
             <div key={post._id}>
-              <h3>{post.caption}</h3>
-              <img src={post.images[0]} alt={post.caption} />
+              <h5>
+                <strong>{post.user.username}</strong>
+              </h5>
               <p>{post.location}</p>
-              <p>{new Date(post.travelDates).toLocaleDateString()}</p>
+              <img src={post.images[0]} alt={post.caption} />
+              <p>
+                {new Date(post.travelDates.start).toLocaleDateString()} -{" "}
+                {new Date(post.travelDates.end).toLocaleDateString()}
+              </p>
+              <p>{post.caption}</p>
               <p>{post.experienceType}</p>
               <p>{post.tips}</p>
-              <button onClick={() => handleLike(post._id, "posts")}>
-                Like
-              </button>
-              <button onClick={() => handleUnlike(post._id, "posts")}>
-                Unlike
-              </button>
+              <FetchLikes id={post._id} type="posts" user={user} />
+
               <button onClick={() => handleSave(post._id, "posts")}>
                 Save
               </button>
@@ -129,17 +169,23 @@ export default function FeedPage({ user }) {
           ))}
           {feed.itineraries.map((itinerary) => (
             <div key={itinerary._id}>
-              <h3>{itinerary.title}</h3>
-              <img src={itinerary.coverPhoto} alt={itinerary.title} />
-              <p>{itinerary.description}</p>
+              <h5>
+                <strong>{itinerary.user.username}</strong>
+              </h5>
+              <p>{itinerary.title}</p>
               <p>{itinerary.location}</p>
-              <p>{new Date(itinerary.travelDates).toLocaleDateString()}</p>
+              <img src={itinerary.coverPhoto} alt={itinerary.title} />
+              <p>
+                {new Date(itinerary.travelDates.start).toLocaleDateString()} -{" "}
+                {new Date(itinerary.travelDates.end).toLocaleDateString()}
+              </p>
+              <p>{itinerary.description}</p>
               <p>{itinerary.experienceType}</p>
               <div>
                 {itinerary.plan.map((dayPlan, index) => (
                   <div key={index}>
                     <h4>Day {index + 1}</h4>
-                    <p>Date: {dayPlan.date}</p>
+                    <p>Date: {new Date(dayPlan.date).toLocaleDateString()}</p>
                     <p>Location: {dayPlan.location}</p>
                     <ul>
                       {dayPlan.activities.map((activity, idx) => (
@@ -149,14 +195,7 @@ export default function FeedPage({ user }) {
                   </div>
                 ))}
               </div>
-              <button onClick={() => handleLike(itinerary._id, "itineraries")}>
-                Like
-              </button>
-              <button
-                onClick={() => handleUnlike(itinerary._id, "itineraries")}
-              >
-                Unlike
-              </button>
+              <FetchLikes id={itinerary._id} type="itineraries" user={user} />
               <button onClick={() => handleSave(itinerary._id, "itineraries")}>
                 Save
               </button>
