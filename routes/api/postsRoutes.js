@@ -3,10 +3,11 @@ const router = express.Router();
 const postsCtrl = require("../../controllers/api/postsController");
 
 // POST /api/users
-router.post("/posts", postsCtrl.createPost);
+router.post("/posts/:userId", postsCtrl.createPost);
 router.delete("/posts/:postId/:userId", postsCtrl.deletePost);
 router.put("/posts/:postId/:userId", postsCtrl.updatePost);
 router.post("/posts/:postId/like/:userId", postsCtrl.likePost);
+router.get("/posts/:postId/like/:userId", postsCtrl.getPostLikes);
 router.delete("/posts/:postId/unlike/:userId", postsCtrl.unlikePost);
 router.post("/posts/:postId/save/:userId", postsCtrl.savePost);
 router.delete("/posts/:postId/unsave/:userId", postsCtrl.unsavePost);
@@ -15,6 +16,7 @@ router.delete("/posts/:postId/comments/:commentId/:userId", postsCtrl.deleteComm
 router.post("/itineraries", postsCtrl.createItinerary);
 router.delete("/itineraries/:itineraryId/:userId", postsCtrl.deleteItinerary);
 router.put("/itineraries/:itineraryId/:userId", postsCtrl.updateItinerary);
+router.get("/itineraries/:itineraryId/like/:userId", postsCtrl.getItinerarylikes);
 router.post("/itineraries/:itineraryId/like/:userId", postsCtrl.likeItinerary);
 router.delete("/itineraries/:itineraryId/unlike/:userId", postsCtrl.unlikeItinerary);
 router.post("/itineraries/:itineraryId/save/:userId", postsCtrl.saveItinerary);
