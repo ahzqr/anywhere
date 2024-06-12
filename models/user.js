@@ -30,7 +30,7 @@ const userSchema = new Schema(
     },
     profilepic: {
       type: String,
-      default: "assets/default_avatar.png"
+      default: "https://github.com/ahzqr/anywhere/blob/main/assets/default_avatar.png?raw=true"
     },
     bio: {
       type: String
