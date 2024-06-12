@@ -5,6 +5,17 @@ const Post = require("../../models/post");
 const Itinerary = require("../../models/itinerary");
 const Comment = require("../../models/comment");
 
+const getPostById = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+    res.json(post)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving post" });
+  }
+}
+
 const createPost = async (req, res) => {
   const { userId } = req.params;
   debug("body: %o", req.body);
@@ -223,6 +234,17 @@ const deleteCommentPost = async (req, res) => {
 }
 
 //===========//
+
+const getItineraryById = async (req, res) => {
+  try {
+    const { itineraryId } = req.params;
+    const itinerary = await Itinerary.findById(itineraryId);
+    res.json(itinerary)
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error retrieving itinerary" });
+  }
+}
 
 const createItinerary = async (req, res) => {
   debug("body: %o", req.body);
@@ -464,4 +486,6 @@ module.exports = {
   unsaveItinerary,
   createCommentItinerary,
   deleteCommentItinerary,
+  getPostById,
+  getItineraryById
 };
