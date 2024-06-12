@@ -198,20 +198,21 @@ export default function FeedPage({ user }) {
               </p>
               <p>{itinerary.description}</p>
               <p>{itinerary.experienceType}</p>
-              <div>
+              <p>{itinerary.plan}</p>
+              {/* <div>
                 {itinerary.plan.map((dayPlan, index) => (
                   <div key={index}>
                     <h4>Day {index + 1}</h4>
                     <p>Date: {new Date(dayPlan.date).toLocaleDateString()}</p>
                     <p>Location: {dayPlan.location}</p>
                     <ul>
-                      {/* {dayPlan.activities.map((activity, idx) => (
+                      {dayPlan.activities.map((activity, idx) => (
                         <li key={idx}>{activity}</li>
-                      ))} */}
+                      ))}
                     </ul>
                   </div>
                 ))}
-              </div>
+              </div> */}
               <FetchLikes id={itinerary._id} type="itineraries" user={user} />
               <p>Likes: {itinerary.likes.length}</p>
               <button onClick={() => handleSave(itinerary._id, "itineraries")}>

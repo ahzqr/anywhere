@@ -15,7 +15,7 @@ router.delete("/posts/:postId/unsave/:userId", postsCtrl.unsavePost);
 router.post("/posts/:postId/comments/:userId", postsCtrl.createCommentPost);
 router.delete("/posts/:postId/comments/:commentId/:userId", postsCtrl.deleteCommentPost);
 router.get("/itinerary/:itineraryId", postsCtrl.getItineraryById);
-router.post("/itineraries", postsCtrl.createItinerary);
+router.post("/itineraries/:userId", postsCtrl.createItinerary);
 router.delete("/itineraries/:itineraryId/:userId", postsCtrl.deleteItinerary);
 router.put("/itineraries/:itineraryId/:userId", postsCtrl.updateItinerary);
 router.get("/itineraries/:itineraryId/like/:userId", postsCtrl.getItinerarylikes);

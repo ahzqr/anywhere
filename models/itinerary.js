@@ -25,20 +25,21 @@ const itinerarySchema = new Schema(
       start: { type: Date },
       end: { type: Date }
     },
-    plan: [{
-      day: {
-        type: Number,
-        required: true
-      },
-      location: {
-        type: String,
-        required: true
-      },
-      activities: {
-        type: String,
-        required: true
-      }
-    }],
+    plan: {
+      type: String
+      // day: {
+      //   type: Number,
+      //   required: true
+      // },
+      // location: {
+      //   type: String,
+      //   required: true
+      // },
+      // activities: {
+      //   type: String,
+      //   required: true
+      // }
+    },
     experienceType: {
       type: String,
       // enum: ["Adventure", 'Nature', "Luxury"],

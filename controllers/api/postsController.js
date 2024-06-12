@@ -259,12 +259,13 @@ const getItineraryById = async (req, res) => {
 }
 
 const createItinerary = async (req, res) => {
+  const { userId } = req.params;
   debug("body: %o", req.body);
   const { title, description, coverPhoto, location, travelDates, plan, experienceType } = req.body;
 
   try {
     const newItinerary = new Itinerary({
-      user: req.user.id,
+      user: userId,
       title,
       description,
       coverPhoto,
