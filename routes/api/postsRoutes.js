@@ -23,6 +23,7 @@ router.post("/itineraries/:itineraryId/save/:userId", postsCtrl.saveItinerary);
 router.delete("/itineraries/:itineraryId/unsave/:userId", postsCtrl.unsaveItinerary);
 router.post("/itineraries/:itineraryId/comments/:userId", postsCtrl.createCommentItinerary);
 router.delete("/itineraries/:itineraryId/comments/:commentId/:userId", postsCtrl.deleteCommentItinerary);
+router.get("/search/location/:query", postsCtrl.getSearchResults)
 
 
 module.exports = router;
