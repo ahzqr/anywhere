@@ -126,7 +126,9 @@ export default function FeedPage({ user }) {
           {feed.posts.map((post) => (
             <div key={post._id}>
               <h5>
-                <strong>{post.user.username}</strong>
+                <Link to={`/profile/${post.user._id}`}>
+                  <strong>{post.user.username}</strong>
+                </Link>
               </h5>
               <p>{post.location}</p>
               {post.images.map((image, index) => (
@@ -163,7 +165,10 @@ export default function FeedPage({ user }) {
               {post.comments.map((comment) => (
                 <div key={comment._id}>
                   <p>
-                    {comment.user.username}: {comment.content}
+                    <Link to={`/profile/${comment.user._id}`}>
+                      <strong>{comment.user.username}</strong>
+                    </Link>{" "}
+                    : {comment.content}
                   </p>
                 </div>
               ))}
@@ -172,7 +177,9 @@ export default function FeedPage({ user }) {
           {feed.itineraries.map((itinerary) => (
             <div key={itinerary._id}>
               <h5>
-                <strong>{itinerary.user.username}</strong>
+                <Link to={`/profile/${itinerary.user._id}`}>
+                  <strong>{itinerary.user.username}</strong>
+                </Link>
               </h5>
               <p>{itinerary.title}</p>
               <p>{itinerary.location}</p>
@@ -226,7 +233,10 @@ export default function FeedPage({ user }) {
                 {itinerary.comments.map((comment) => (
                   <div key={comment._id}>
                     <p>
-                      {comment.user.username}: {comment.content}
+                    <Link to={`/profile/${comment.user._id}`}>
+                      <strong>{comment.user.username}</strong>
+                    </Link>{" "}
+                    : {comment.content}
                     </p>
                   </div>
                 ))}
