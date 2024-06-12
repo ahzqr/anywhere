@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUser } from "../../utilities/users-service";
 import sendRequest from "../../utilities/send-request";
 
@@ -72,7 +72,6 @@ export default function ProfilePage() {
         />
         <div>
           <h2>{user.username}</h2>
-          <p>{user.location}</p>
           <p>{user?.following?.length} following</p>
           <p>{user?.followers?.length} followers</p>
           {currentUser._id === userId ? (
@@ -93,9 +92,11 @@ export default function ProfilePage() {
           <div>
             {posts.map((post) => (
               <div key={post._id}>
-                {post.images.map((image) => (
-                  <img src={image} key={post._id} />
-                ))}
+                <Link to={`/post/${post._id}`}>
+                  {post.images.map((image) => (
+                    <img src={image} key={post._id} />
+                  ))}
+                </Link>
                 <p>{post.caption}</p>
               </div>
             ))}
@@ -104,9 +105,11 @@ export default function ProfilePage() {
           <div>
             {itineraries.map((itinerary) => (
               <div key={itinerary._id}>
-                {itinerary.coverPhoto.map((image) => (
-                  <img src={image} key={itinerary._id} />
-                ))}
+                <Link to={`/itinerary/${itinerary._id}`}>
+                  {itinerary.coverPhoto.map((image) => (
+                    <img src={image} key={itinerary._id} />
+                  ))}
+                </Link>
               </div>
             ))}
           </div>
