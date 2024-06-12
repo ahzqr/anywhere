@@ -109,7 +109,7 @@ export default function ProfilePage() {
               <div key={post._id}>
                 <Link to={`/post/${post._id}`}>
                   {post.images.map((image) => (
-                    <img src={image} key={post._id} />
+                    <img src={image} key={image} />
                   ))}
                 </Link>
                 <p>{post.caption}</p>
