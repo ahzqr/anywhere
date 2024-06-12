@@ -23,26 +23,60 @@ export default function AddPost() {
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, files } = event.target;
     if (name.includes("travelDates")) {
-      const [field, subField] = name.split('.');
+      const [field, subField] = name.split(".");
       setFormData({
-       ...formData,
+        ...formData,
         [field]: {
-         ...formData[field],
+          ...formData[field],
           [subField]: value,
         },
       });
+    } else if (name === "images" || name === "coverPhoto") {
+      setFormData({
+        ...formData,
+        [name]: files,
+      });
     } else {
       setFormData({
-       ...formData,
+        ...formData,
         [name]: value,
       });
     }
   };
 
+  const uploadImage = async (image) => {
+    const formData = new FormData();
+    formData.append("file", image);
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+    return data.url;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    let imageUrls = [];
+    if (formData.images.length > 0) {
+      for (let i = 0; i < formData.images.length; i++) {
+        const imageUrl = await uploadImage(formData.images[i]);
+        imageUrls.push(imageUrl);
+      }
+    }
+    let coverPhotoUrl = "";
+    if (formData.coverPhoto.length > 0) {
+      coverPhotoUrl = await uploadImage(formData.coverPhoto[0]);
+    }
+
+    const postData = {
+      ...formData,
+      images: imageUrls,
+      coverPhoto: coverPhotoUrl,
+    };
+
     const url =
       postType === "normalPost"
         ? `/api/content/posts/${user._id}`
@@ -54,7 +88,7 @@ export default function AddPost() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(postData),
       });
 
       const data = await response.json();

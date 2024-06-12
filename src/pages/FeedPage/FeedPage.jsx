@@ -129,7 +129,9 @@ export default function FeedPage({ user }) {
                 <strong>{post.user.username}</strong>
               </h5>
               <p>{post.location}</p>
-              <img src={post.images[0]} alt={post.caption} />
+              {post.images.map((image, index) => (
+                <img key={index} src={image} alt={`Image ${index}`} />
+              ))}
               <p>
                 {new Date(post.travelDates.start).toLocaleDateString()} -{" "}
                 {new Date(post.travelDates.end).toLocaleDateString()}

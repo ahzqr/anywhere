@@ -2,11 +2,23 @@ const express = require("express");
 const path = require("path");
 const logger = require("morgan");
 const debug = require("debug")("anywhere:server");
+const cloudinary = require("cloudinary").v2;
+const multer = require("multer");
 // Always require and configure near the top
 require("dotenv").config();
 require("./config/database");
 
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
 const app = express();
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -24,6 +36,7 @@ app.use("/api/users", require("./routes/api/usersRoutes"));
 app.use("/api/content", require("./routes/api/postsRoutes"));
 app.use("/api/feed", require("./routes/api/feedRoutes"));
 app.use("/api/admin", require("./routes/api/adminRoutes"));
+app.use("/api/upload", upload.single("file"), require("./routes/api/uploadRoutes"));
 
 
 // The following "catch all" route (note the *) is necessary
