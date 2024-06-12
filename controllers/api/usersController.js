@@ -178,15 +178,6 @@ const getSavedContent = async (req, res) => {
   }
 }
 
-const getSearchResults = async (req, res) => {
-  const { query } = req.params;
-  try {
-    const users = await User.find({ username: { $regex: query, $options: "i" } });
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to search users by username" });
-  }
-}
 
 module.exports = {
   create,
@@ -198,5 +189,4 @@ module.exports = {
   getFeedById,
   getProfile,
   getSavedContent,
-  getSearchResults
 };

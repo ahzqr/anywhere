@@ -17,7 +17,7 @@ export default function AddPost() {
     title: "",
     description: "",
     coverPhoto: "",
-    plan: [],
+    plan: [{ day: "", location: "", activities: "" }],
   });
   const user = getUser();
   const navigate = useNavigate();

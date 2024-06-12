@@ -37,6 +37,8 @@ app.use("/api/content", require("./routes/api/postsRoutes"));
 app.use("/api/feed", require("./routes/api/feedRoutes"));
 app.use("/api/admin", require("./routes/api/adminRoutes"));
 app.use("/api/upload", upload.single("file"), require("./routes/api/uploadRoutes"));
+app.use("/api/search", require("./routes/api/searchRoutes"));
+
 
 
 // The following "catch all" route (note the *) is necessary

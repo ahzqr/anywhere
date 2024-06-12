@@ -9,6 +9,7 @@ import FeedPage from "../FeedPage/FeedPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import AdminDashboard from "../AdminDashboard/AdminDashboard";
 import SavedContent from "../../components/SavedContent/SavedContent";
+import SearchResults from "../../components/SearchResults/SearchResults";
 
 const log = debug("mern:pages:App:App");
 
@@ -39,6 +40,7 @@ export default function App() {
               path="/profile/:userId"
               element={<ProfilePage user={user} />}
             />
+            <Route path="/search" element={<SearchResults />} />
           </Routes>
         </main>
       </>
@@ -56,6 +58,7 @@ export default function App() {
               element={<ProfilePage user={user} />}
             />
             <Route path="/saved" element={<SavedContent />} />
+            <Route path="/search" element={<SearchResults />} />
           </Routes>
         </main>
       </>

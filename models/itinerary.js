@@ -30,17 +30,14 @@ const itinerarySchema = new Schema(
         type: Number,
         required: true
       },
-      date: {
-        type: Date
-      },
       location: {
         type: String,
         required: true
       },
-      activities: [{
+      activities: {
         type: String,
         required: true
-      }]
+      }
     }],
     experienceType: {
       type: String,

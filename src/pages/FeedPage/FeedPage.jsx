@@ -190,9 +190,9 @@ export default function FeedPage({ user }) {
                     <p>Date: {new Date(dayPlan.date).toLocaleDateString()}</p>
                     <p>Location: {dayPlan.location}</p>
                     <ul>
-                      {dayPlan.activities.map((activity, idx) => (
+                      {/* {dayPlan.activities.map((activity, idx) => (
                         <li key={idx}>{activity}</li>
-                      ))}
+                      ))} */}
                     </ul>
                   </div>
                 ))}

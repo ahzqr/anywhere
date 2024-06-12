@@ -12,6 +12,5 @@ router.post("/:userId/follow", [ensureLoggedIn], usersCtrl.createFollow);
 router.delete("/:userId/unfollow", [ensureLoggedIn], usersCtrl.deleteFollow);
 router.get("/:userId", usersCtrl.getProfile);
 router.get("/:userId/saved", usersCtrl.getSavedContent);
-router.get("/search/username/:query", usersCtrl.getSearchResults);
 
 module.exports = router;

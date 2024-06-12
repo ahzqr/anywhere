@@ -442,15 +442,6 @@ const deleteCommentItinerary = async (req, res) => {
   }
 }
 
-const getSearchResults = async (req, res) => {
-  const { query } = req.params;
-  try {
-    const posts = await Post.find({ location: { $regex: query, $options: "i" } });
-    res.json(posts);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to search by location" });
-  }
-}
 
 module.exports = {
   createPost,
@@ -473,5 +464,4 @@ module.exports = {
   unsaveItinerary,
   createCommentItinerary,
   deleteCommentItinerary,
-  getSearchResults
 };
