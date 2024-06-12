@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-export default function ViewContent({user}) {
+export default function ViewContent({ user }) {
   const [post, setPost] = useState({});
   const [itinerary, setItinerary] = useState(null);
   const { type, id } = useParams();
@@ -77,6 +77,16 @@ export default function ViewContent({user}) {
     }
   };
 
+  const handleDeleteContent = async (id, type) => {
+    try {
+      await fetch(`/api/content/${type}/${id}/${user._id}`, {
+        method: "DELETE",
+      });
+    } catch (error) {
+      console.error("Failed to ddelete", error);
+    }
+  };
+
   const FetchLikes = ({ id, type, user }) => {
     const [isLiked, setIsLiked] = useState(false);
 
@@ -138,6 +148,14 @@ export default function ViewContent({user}) {
             <button onClick={() => handleUnsave(post?._id, "posts")}>
               Unsave
             </button>
+            {user._id === post?.user?._id ? (
+               <button onClick={() => handleDeleteContent(post?._id, "posts")}>
+               Delete
+             </button>
+            ) : (
+              ""
+            )}
+           
             <div>
               <input
                 type="text"
@@ -204,6 +222,17 @@ export default function ViewContent({user}) {
             <button onClick={() => handleUnsave(itinerary?._id, "itineraries")}>
               Unsave
             </button>
+            {user._id === itinerary?.user?._id ? (
+              <button
+                onClick={() =>
+                  handleDeleteContent(itinerary?._id, "itineraries")
+                }
+              >
+                Delete
+              </button>
+            ) : (
+              ""
+            )}
             <div>
               <input
                 type="text"
