@@ -127,6 +127,10 @@ export default function FeedPage({ user }) {
             <div key={post._id}>
               <h5>
                 <Link to={`/profile/${post.user._id}`}>
+                  <img
+                    src={post.user.profilepic}
+                    style={{ width: "32px", height: "32px" }}
+                  />
                   <strong>{post.user.username}</strong>
                 </Link>
               </h5>
@@ -178,7 +182,11 @@ export default function FeedPage({ user }) {
             <div key={itinerary._id}>
               <h5>
                 <Link to={`/profile/${itinerary.user._id}`}>
-                  <strong>{itinerary.user.username}</strong>
+                <img
+                    src={itinerary.user.profilepic}
+                    alt={itinerary.user.username}
+                    style={{ width: "32px", height: "32px" }}
+                  /><strong>{itinerary.user.username}</strong>
                 </Link>
               </h5>
               <p>{itinerary.title}</p>
@@ -234,10 +242,10 @@ export default function FeedPage({ user }) {
                 {itinerary.comments.map((comment) => (
                   <div key={comment._id}>
                     <p>
-                    <Link to={`/profile/${comment.user._id}`}>
-                      <strong>{comment.user.username}</strong>
-                    </Link>{" "}
-                    : {comment.content}
+                      <Link to={`/profile/${comment.user._id}`}>
+                        <strong>{comment.user.username}</strong>
+                      </Link>{" "}
+                      : {comment.content}
                     </p>
                   </div>
                 ))}
