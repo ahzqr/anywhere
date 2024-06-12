@@ -63,6 +63,28 @@ const getFollowingStatus = async (req, res) => {
   }
 }
 
+const getFollowers = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).populate("followers");
+    res.json(user.followers);
+  } catch (error) {
+    debug("error: %o", error);
+    res.status(500).json({ error });
+  }
+};
+
+const getFollowing = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId).populate("following");
+    res.json(user.following);
+  } catch (error) {
+    debug("error: %o", error);
+    res.status(500).json({ error });
+  }
+};
+
 const createFollow = async (req, res) => {
   const { userId } = req.params;
   const user = getUser(req, res);
@@ -189,4 +211,6 @@ module.exports = {
   getFeedById,
   getProfile,
   getSavedContent,
+  getFollowers,
+  getFollowing
 };
