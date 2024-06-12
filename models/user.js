@@ -33,7 +33,8 @@ const userSchema = new Schema(
       default: "https://github.com/ahzqr/anywhere/blob/main/assets/default_avatar.png?raw=true"
     },
     bio: {
-      type: String
+      type: String,
+      default: ""
     },
     followers: [
       { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },

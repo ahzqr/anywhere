@@ -75,6 +75,7 @@ export default function ProfilePage() {
         />
         <div>
           <h2>{user.username}</h2>
+          <p>{user?.bio}</p>
           <Link to={`/profile/${user?._id}/following`}>
             <p>{user?.following?.length} following</p>
           </Link>

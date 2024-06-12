@@ -13,6 +13,7 @@ import SearchResults from "../../components/SearchResults/SearchResults";
 import ViewContent from "../../components/ViewContent/ViewContent";
 import Following from "../../components/Following/Following";
 import Followers from "../../components/Followers/Followers";
+import EditProfile from "../../components/EditProfile/EditProfile";
 
 const log = debug("mern:pages:App:App");
 
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/:type/:id" element={<ViewContent user={user} />} />
             <Route path="/profile/:userId/following" element={<Following />} />
             <Route path="/profile/:userId/followers" element={<Followers />} />
+            <Route path="/profile/:userId/editprofile" element={<EditProfile />} />
           </Routes>
         </main>
       </>
@@ -68,6 +70,7 @@ export default function App() {
             <Route path="/:type/:id" element={<ViewContent user={user} />} />
             <Route path="/profile/:userId/following" element={<Following />} />
             <Route path="/profile/:userId/followers" element={<Followers />} />
+            <Route path="/profile/:userId/editprofile" element={<EditProfile />} />
           </Routes>
         </main>
       </>
