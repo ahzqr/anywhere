@@ -11,6 +11,7 @@ export default class SignUpForm extends Component {
     email: "",
     password: "",
     confirm: "",
+    profilePic: null,
   };
 
   handleChange = (event) => {
