@@ -68,7 +68,7 @@ export default function ProfilePage() {
         <img
           src={user.profilepic}
           alt={user.username}
-          style={{ width: "50px", height: "50px" }}
+          style={{ width: "150px", height: "150px" }}
         />
         <div>
           <h2>{user.username}</h2>
