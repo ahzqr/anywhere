@@ -29,7 +29,10 @@ export default function ProfilePage() {
   useEffect(() => {
     const checkFollowing = async () => {
       try {
-        const data = await sendRequest(`/api/users/${userId}/following`, "GET");
+        const data = await sendRequest(
+          `/api/users/${userId}/followingstatus`,
+          "GET"
+        );
         setIsFollowing(data.following);
       } catch (error) {
         console.error(error);
@@ -72,8 +75,12 @@ export default function ProfilePage() {
         />
         <div>
           <h2>{user.username}</h2>
-          <p>{user?.following?.length} following</p>
-          <p>{user?.followers?.length} followers</p>
+          <Link to={`/profile/${user?._id}/following`}>
+            <p>{user?.following?.length} following</p>
+          </Link>
+          <Link to={`/profile/${user?._id}/followers`}>
+            <p>{user?.followers?.length} followers</p>
+          </Link>
           {currentUser._id === userId ? (
             ""
           ) : isFollowing ? (

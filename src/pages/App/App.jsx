@@ -11,6 +11,8 @@ import AdminDashboard from "../AdminDashboard/AdminDashboard";
 import SavedContent from "../../components/SavedContent/SavedContent";
 import SearchResults from "../../components/SearchResults/SearchResults";
 import ViewContent from "../../components/ViewContent/ViewContent";
+import Following from "../../components/Following/Following";
+import Followers from "../../components/Followers/Followers";
 
 const log = debug("mern:pages:App:App");
 
@@ -43,6 +45,8 @@ export default function App() {
             />
             <Route path="/search" element={<SearchResults />} />
             <Route path="/:type/:id" element={<ViewContent user={user} />} />
+            <Route path="/profile/:userId/following" element={<Following />} />
+            <Route path="/profile/:userId/followers" element={<Followers />} />
           </Routes>
         </main>
       </>
@@ -62,6 +66,8 @@ export default function App() {
             <Route path="/saved" element={<SavedContent />} />
             <Route path="/search" element={<SearchResults />} />
             <Route path="/:type/:id" element={<ViewContent user={user} />} />
+            <Route path="/profile/:userId/following" element={<Following />} />
+            <Route path="/profile/:userId/followers" element={<Followers />} />
           </Routes>
         </main>
       </>
