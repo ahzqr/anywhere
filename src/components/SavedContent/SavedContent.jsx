@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../../utilities/users-service";
+import { Link } from "react-router-dom";
 
 export default function SavedContent() {
   const [savedPosts, setSavedPosts] = useState([]);
@@ -34,6 +35,7 @@ export default function SavedContent() {
           <li key={post._id}>
             <h3>{post.caption}</h3>
             <p>{post.content}</p>
+            <Link to={`/post/${post._id}`}>View Post</Link>
           </li>
         ))}
       </ul>
@@ -44,6 +46,7 @@ export default function SavedContent() {
           <li key={itinerary._id}>
             <h3>{itinerary.title}</h3>
             <p>{itinerary.description}</p>
+            <Link to={`/itinerary/${itinerary._id}`}>View Itinerary</Link>
           </li>
         ))}
       </ul>
