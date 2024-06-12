@@ -123,14 +123,14 @@ const getFeedById = async (req, res) => {
 
     const posts = await Post.find({ user: { $in: followingIds } }).populate({
       path: "user",
-      select: "username profilePic"
+      select: "username profilepic"
     }).populate({
       path: "comments",
       populate: { path: "user" }
     }).sort({ createdAt: -1 });
     const itineraries = await Itinerary.find({ user: { $in: followingIds } }).populate({
       path: "user",
-      select: "username profilePic"
+      select: "username profilepic"
     }).populate({
       path: "comments",
       populate: { path: "user" }

@@ -10,6 +10,7 @@ import ProfilePage from "../ProfilePage/ProfilePage";
 import AdminDashboard from "../AdminDashboard/AdminDashboard";
 import SavedContent from "../../components/SavedContent/SavedContent";
 import SearchResults from "../../components/SearchResults/SearchResults";
+import ViewContent from "../../components/ViewContent/ViewContent";
 
 const log = debug("mern:pages:App:App");
 
@@ -41,6 +42,7 @@ export default function App() {
               element={<ProfilePage user={user} />}
             />
             <Route path="/search" element={<SearchResults />} />
+            <Route path="/:type/:id" element={<ViewContent user={user} />} />
           </Routes>
         </main>
       </>
@@ -59,6 +61,7 @@ export default function App() {
             />
             <Route path="/saved" element={<SavedContent />} />
             <Route path="/search" element={<SearchResults />} />
+            <Route path="/:type/:id" element={<ViewContent user={user} />} />
           </Routes>
         </main>
       </>

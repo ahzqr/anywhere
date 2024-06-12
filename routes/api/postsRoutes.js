@@ -3,7 +3,7 @@ const router = express.Router();
 const postsCtrl = require("../../controllers/api/postsController");
 
 // POST /api/content
-router.get("/posts/:postId", postsCtrl.getPostById);
+router.get("/post/:postId", postsCtrl.getPostById);
 router.post("/posts/:userId", postsCtrl.createPost);
 router.delete("/posts/:postId/:userId", postsCtrl.deletePost);
 router.put("/posts/:postId/:userId", postsCtrl.updatePost);
@@ -14,7 +14,7 @@ router.post("/posts/:postId/save/:userId", postsCtrl.savePost);
 router.delete("/posts/:postId/unsave/:userId", postsCtrl.unsavePost);
 router.post("/posts/:postId/comments/:userId", postsCtrl.createCommentPost);
 router.delete("/posts/:postId/comments/:commentId/:userId", postsCtrl.deleteCommentPost);
-router.get("/itineraries/:itineraryId", postsCtrl.getItineraryById);
+router.get("/itinerary/:itineraryId", postsCtrl.getItineraryById);
 router.post("/itineraries", postsCtrl.createItinerary);
 router.delete("/itineraries/:itineraryId/:userId", postsCtrl.deleteItinerary);
 router.put("/itineraries/:itineraryId/:userId", postsCtrl.updateItinerary);

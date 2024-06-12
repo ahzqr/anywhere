@@ -8,7 +8,13 @@ const Comment = require("../../models/comment");
 const getPostById = async (req, res) => {
   try {
     const { postId } = req.params;
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate({
+      path: "user",
+      select: "username profilepic"
+    }).populate({
+      path: "comments",
+      populate: { path: "user" }
+    });
     res.json(post)
   } catch (error) {
     console.error(error);
@@ -238,7 +244,13 @@ const deleteCommentPost = async (req, res) => {
 const getItineraryById = async (req, res) => {
   try {
     const { itineraryId } = req.params;
-    const itinerary = await Itinerary.findById(itineraryId);
+    const itinerary = await Itinerary.findById(itineraryId).populate({
+      path: "user",
+      select: "username profilePic"
+    }).populate({
+      path: "comments",
+      populate: { path: "user" }
+    });
     res.json(itinerary)
   } catch (error) {
     console.error(error);
@@ -343,9 +355,9 @@ const likeItinerary = async (req, res) => {
     if (!itinerary.likes.includes(userId)) {
       itinerary.likes.push(userId);
       await itinerary.save();
-      res.status(200).json({ message: "Post liked" })
+      res.status(200).json({ message: "Itinerary liked" })
     } else {
-      res.status(400).json({ message: "You have already liked this post" });
+      res.status(400).json({ message: "You have already liked this itinerary" });
     }
   } catch (error) {
     debug("error: %o", error);

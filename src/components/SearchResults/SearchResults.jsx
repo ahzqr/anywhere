@@ -61,7 +61,7 @@ export default function SearchResults() {
               </h5>
               <p>{itinerary.title}</p>
               <p>{itinerary.location}</p>
-              <Link to={`/post/${itinerary._id}`}>View Itinerary</Link>
+              <Link to={`/itinerary/${itinerary._id}`}>View Itinerary</Link>
             </div>
           ))}
         </div>
