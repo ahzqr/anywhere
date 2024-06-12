@@ -41,7 +41,7 @@ const itinerarySchema = new Schema(
     }],
     experienceType: {
       type: String,
-      enum: ["Adventure", 'Nature', "Luxury"],
+      // enum: ["Adventure", 'Nature', "Luxury"],
       required: true
     },
     likes: [{
