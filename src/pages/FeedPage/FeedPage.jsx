@@ -142,7 +142,7 @@ export default function FeedPage({ user }) {
               <p>{post.experienceType}</p>
               <p>{post.tips}</p>
               <FetchLikes id={post._id} type="posts" user={user} />
-
+              <p>Likes: {post.likes.length}</p>
               <button onClick={() => handleSave(post._id, "posts")}>
                 Save
               </button>
@@ -205,6 +205,7 @@ export default function FeedPage({ user }) {
                 ))}
               </div>
               <FetchLikes id={itinerary._id} type="itineraries" user={user} />
+              <p>Likes: {itinerary.likes.length}</p>
               <button onClick={() => handleSave(itinerary._id, "itineraries")}>
                 Save
               </button>
