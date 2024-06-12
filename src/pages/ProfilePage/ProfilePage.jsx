@@ -89,6 +89,13 @@ export default function ProfilePage() {
           ) : (
             <button onClick={handleFollow}>Follow</button>
           )}
+          {currentUser._id === userId ? (
+            <Link to={`/profile/${currentUser._id}/editprofile`}>
+              <button>Edit Profile</button>
+            </Link>
+          ) : (
+            ""
+          )}
         </div>
       </div>
 
