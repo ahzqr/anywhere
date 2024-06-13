@@ -28,25 +28,35 @@ export default function SavedContent() {
   }, [currentUser._id]);
 
   return (
-    <div>
-      <h2>Saved Posts</h2>
-      <ul>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Saved Posts</h2>
+      <ul className="list-none mb-8">
         {savedPosts.map((post) => (
-          <li key={post._id}>
-            <h3>{post.caption}</h3>
-            <p>{post.content}</p>
-            <Link to={`/post/${post._id}`}>View Post</Link>
+          <li key={post._id} className="mb-4">
+            <h3 className="text-lg font-bold">{post.caption}</h3>
+            <p className="text-gray-600">{post.content}</p>
+            <Link
+              to={`/post/${post._id}`}
+              className="text-blue-600 hover:text-blue-800"
+            >
+              View Post
+            </Link>
           </li>
         ))}
       </ul>
 
-      <h2>Saved Itineraries</h2>
-      <ul>
+      <h2 className="text-2xl font-bold mb-4">Saved Itineraries</h2>
+      <ul className="list-none mb-8">
         {savedItineraries.map((itinerary) => (
-          <li key={itinerary._id}>
-            <h3>{itinerary.title}</h3>
-            <p>{itinerary.description}</p>
-            <Link to={`/itinerary/${itinerary._id}`}>View Itinerary</Link>
+          <li key={itinerary._id} className="mb-4">
+            <h3 className="text-lg font-bold">{itinerary.title}</h3>
+            <p className="text-gray-600">{itinerary.description}</p>
+            <Link
+              to={`/itinerary/${itinerary._id}`}
+              className="text-blue-600 hover:text-blue-800"
+            >
+              View Itinerary
+            </Link>
           </li>
         ))}
       </ul>

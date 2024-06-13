@@ -19,21 +19,32 @@ export default function LoginForm({ setUser }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <fieldset>
-        <legend>Login</legend>
-        <label>
+    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
+      <fieldset className="mb-4">
+        <legend className="text-lg font-bold mb-2">Login</legend>
+        <label className="block mb-2">
           Username:
-          <input name="username" />
+          <input
+            name="username"
+            className="w-full p-2 pl-10 text-sm text-gray-700"
+            placeholder="Username"
+          />
         </label>
-        <br />
-
-        <label>
+        <label className="block mb-2">
           Password:
-          <input name="password" />
+          <input
+            name="password"
+            type="password"
+            className="w-full p-2 pl-10 text-sm text-gray-700"
+            placeholder="Password"
+          />
         </label>
-        <br />
-        <button>Login</button>
+        <button
+          type="submit"
+          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Login
+        </button>
       </fieldset>
     </form>
   );

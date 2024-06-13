@@ -100,10 +100,10 @@ export default function AddPost() {
   };
 
   return (
-    <div>
-      <h2>Create a New Post</h2>
-      <div>
-        <label>
+    <div className="container mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4">Create a New Post</h2>
+      <div className="flex justify-center mb-4">
+        <label className="mr-4">
           <input
             type="radio"
             value="normalPost"
@@ -123,150 +123,166 @@ export default function AddPost() {
         </label>
       </div>
 
-      <form onSubmit={handleSubmit}>
-        {postType === "normalPost" ? (
+      <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white shadow-md rounded">
+        {postType === "normalPost"? (
           <div>
-            <h3>Travel Post</h3>
-            <label>
+            <h3 className="text-lg font-bold mb-2">Travel Post</h3>
+            <label className="block mb-2">
               Images:
               <input
                 type="file"
                 name="images"
                 multiple
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               Caption:
               <input
                 type="text"
                 name="caption"
                 value={formData.caption}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               Location:
               <input
                 type="text"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               Travel Dates:
-              <label>
+              <label className="block mb-1">
                 Start Date:
                 <input
                   type="date"
                   name="travelDates.start"
                   value={formData.travelDates.start}
                   onChange={handleChange}
+                  className="block w-full text-sm text-gray-700"
                 />
               </label>
-              <label>
+              <label className="block mb-1">
                 End Date:
                 <input
                   type="date"
                   name="travelDates.end"
                   value={formData.travelDates.end}
                   onChange={handleChange}
+                  className="block w-full text-sm text-gray-700"
                 />
               </label>
             </label>
-            <label>
+            <label className="block mb-2">
               Experience Type:
               <input
                 type="text"
                 name="experienceType"
                 value={formData.experienceType}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               Tips:
               <textarea
                 name="tips"
                 value={formData.tips}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               ></textarea>
             </label>
           </div>
         ) : (
           <div>
-            <h3>Itinerary</h3>
-            <label>
+            <h3 className="text-lg font-bold mb-2">Itinerary</h3>
+            <label className="block mb-2">
               Title:
               <input
                 type="text"
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               Description:
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               ></textarea>
             </label>
-            <label>
+            <label className="block mb-2">
               Cover Photo:
-              <input type="file" name="coverPhoto" onChange={handleChange} />
+              <input type="file" name="coverPhoto" onChange={handleChange} className="block w-full text-sm text-gray-700" />
             </label>
-            <label>
+            <label className="block mb-2">
               Location:
               <input
                 type="text"
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
-            <label>
+            <label className="block mb-2">
               Travel Dates:
-              <label>
+              <label className="block mb-1">
                 Start Date:
                 <input
                   type="date"
                   name="travelDates.start"
                   value={formData.travelDates.start}
                   onChange={handleChange}
+                  className="block w-full text-sm text-gray-700"
                 />
               </label>
-              <label>
+              <label className="block mb-1">
                 End Date:
                 <input
                   type="date"
                   name="travelDates.end"
                   value={formData.travelDates.end}
                   onChange={handleChange}
+                  className="block w-full text-sm text-gray-700"
                 />
               </label>
             </label>
-            <label>
+            <label className="block mb-2">
               Plans:
               <textarea
                 name="plan"
                 value={formData.plan}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               ></textarea>
             </label>
-            <label>
+            <label className="block mb-2">
               Experience Type:
               <input
                 type="text"
                 name="experienceType"
                 value={formData.experienceType}
                 onChange={handleChange}
+                className="block w-full text-sm text-gray-700"
               />
             </label>
           </div>
         )}
-        <button type="submit">Create Post</button>
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Create Post
+        </button>
       </form>
     </div>
   );

@@ -1,0 +1,81 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.post-box {
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .post-header img {
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+  
+  .post-header-text {
+    text-align: center;
+  }
+  
+  .post-header-text strong {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .post-details {
+    margin-bottom: 20px;
+  }
+  
+  .post-details p {
+    margin-bottom: 10px;
+  }
+
+  .feed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .feed-header button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .feed-header button:hover {
+    background-color: #3e8e41;
+  }
+  
+  .feed-header h2 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+  .no-posts {
+    padding: 20px;
+    text-align: center;
+    color: #666;
+  }

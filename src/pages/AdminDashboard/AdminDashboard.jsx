@@ -154,118 +154,156 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
-      <p>Total Users: {countData.userCount}</p>
-      <p>Total Posts: {countData.postCount}</p>
-      <p>Total Itineraries: {countData.itineraryCount}</p>
-      <h3>Users</h3>
-      <input
-        type="search"
-        value={searchQuery}
-        onChange={handleSearch}
-        placeholder="Search User"
-      />
-      <ul>
-        {filteredUsers.slice(indexOfFirstUser, indexOfLastUser).map((user) => (
-          <li key={user._id}>
-            Name: <strong>{user.name}</strong> <br />
-            Account Username: <strong>{user.username}</strong>
-            <br />
-            Email: <strong>{user.email}</strong> <br />
-            Account Created:{" "}
-            <strong>{new Date(user.createdAt).toLocaleDateString()} </strong>
-            <br />
-            Following: <strong>{user.following.length}</strong> <br />
-            Followers: <strong>{user.followers.length}</strong> <br />
-            <button onClick={() => handleDeleteUser(user._id)}>Delete</button>
-          </li>
-        ))}
-        <div>
-          {Array(Math.ceil(users.length / usersPerPage))
-            .fill()
-            .map((_, index) => (
-              <button key={index} onClick={() => paginate(index + 1)}>
-                {index + 1}
-              </button>
-            ))}
+    <div className="flex flex-col h-screen p-4 bg-gray-100">
+      <header className="flex justify-between mb-4">
+        <h2 className="text-2xl font-bold">Admin Dashboard</h2>
+        <div className="flex items-center">
+          <p className="mr-4">Total Users: {countData.userCount}</p>
+          <p className="mr-4">Total Posts: {countData.postCount}</p>
+          <p>Total Itineraries: {countData.itineraryCount}</p>
         </div>
-      </ul>
-      <h3>Posts</h3>
-      <input
-        type="search"
-        value={postSearchQuery}
-        onChange={handlePostSearch}
-        placeholder="Search by User / Location"
-      />
-      <ul>
-        {filteredPosts.slice(postIndexOfFirst, postIndexOfLast).map((post) => (
-          <li key={post._id}>
-            <strong>{post.caption}</strong> <br />
-            Location: <strong>{post.location}</strong> <br />
-            Likes: <strong>{post.likes.length} </strong>
-            <br />
-            Comments: <strong>{post.comments.length}</strong> <br />
-            Posted by: <strong>{post.user.username}</strong> <br />
-            Posted on:{" "}
-            <strong>
-              {new Date(post.createdAt).toLocaleDateString()}{" "}
-            </strong>{" "}
-            <br />
-            <button onClick={() => handleDeletePost(post._id)}>Delete</button>
-          </li>
-        ))}
-        <div>
-          {Array(Math.ceil(posts.length / postPerPage))
-            .fill()
-            .map((_, index) => (
-              <button key={index} onClick={() => paginatePosts(index + 1)}>
-                {index + 1}
-              </button>
-            ))}
-        </div>
-      </ul>
-      <h3>Itineraries</h3>
-      <input
-        type="search"
-        value={itinerarySearchQuery}
-        onChange={handleItinerarySearch}
-        placeholder="Search by User / Location"
-      />
-      <ul>
-        {filteredItineraries
-          .slice(itineraryIndexOfFirst, itineraryIndexOfLast)
-          .map((itinerary) => (
-            <li key={itinerary._id}>
-              <strong>{itinerary.title}</strong> <br />
-              Location: <strong>{itinerary.location}</strong> <br />
-              Likes: <strong>{itinerary.likes.length} </strong>
-              <br />
-              Comments: <strong>{itinerary.comments.length}</strong> <br />
-              Posted by: <strong>{itinerary.user.username}</strong> <br />
-              Posted on:{" "}
-              <strong>
-                {new Date(itinerary.createdAt).toLocaleDateString()}{" "}
-              </strong>{" "}
-              <br />
-              <button onClick={() => handleDeleteItinerary(itinerary._id)}>
-                Delete
-              </button>
+      </header>
+
+      <section className="flex flex-col mb-4">
+        <h3 className="text-lg font-bold">Users</h3>
+        <input
+          type="search"
+          value={searchQuery}
+          onChange={handleSearch}
+          placeholder="Search User"
+          className="w-full p-2 pl-10 text-sm text-gray-700"
+        />
+        <ul className="flex flex-col">
+          {filteredUsers.slice(indexOfFirstUser, indexOfLastUser).map((user) => (
+            <li key={user._id} className="flex justify-between mb-2">
+              <div>
+                <strong>{user.name}</strong>
+                <br />
+                <span className="text-gray-600">{user.username}</span>
+                <br />
+                <span className="text-gray-600">{user.email}</span>
+              </div>
+              <div className="flex items-center">
+                <button
+                  onClick={() => handleDeleteUser(user._id)}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
-        <div>
-          {Array(Math.ceil(itineraries.length / itineraryPerPage))
-            .fill()
-            .map((_, index) => (
-              <button
-                key={index}
-                onClick={() => paginateItineraries(index + 1)}
-              >
-                {index + 1}
-              </button>
+          <div className="flex justify-center mb-4">
+            {Array(Math.ceil(users.length / usersPerPage))
+             .fill()
+             .map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => paginate(index + 1)}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mx-2"
+                >
+                  {index + 1}
+                </button>
+              ))}
+          </div>
+        </ul>
+      </section>
+
+      <section className="flex flex-col mb-4">
+        <h3 className="text-lg font-bold">Posts</h3>
+        <input
+          type="search"
+          value={postSearchQuery}
+          onChange={handlePostSearch}
+          placeholder="Search by User / Location"
+          className="w-full p-2 pl-10 text-sm text-gray-700"
+        />
+        <ul className="flex flex-col">
+          {filteredPosts.slice(postIndexOfFirst, postIndexOfLast).map((post) => (
+            <li key={post._id} className="flex justify-between mb-2">
+              <div>
+                <strong>{post.caption}</strong>
+                <br />
+                <span className="text-gray-600">{post.location}</span>
+                <br />
+                <span className="text-gray-600">
+                  Likes: {post.likes.length} | Comments: {post.comments.length}
+                </span>
+              </div>
+              <div className="flex items-center">
+                <button
+                  onClick={() => handleDeletePost(post._id)}
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+          <div className="flex justify-center mb-4">
+            {Array(Math.ceil(posts.length / postPerPage))
+             .fill()
+             .map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => paginatePosts(index + 1)}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mx-2"
+                >
+                  {index + 1}
+                </button>
+              ))}
+          </div>
+        </ul>
+      </section>
+
+      <section className="flex flex-col mb-4">
+        <h3 className="text-lg font-bold">Itineraries</h3>
+        <input
+          type="search"
+          value={itinerarySearchQuery}
+          onChange={handleItinerarySearch}
+          placeholder="Search by User / Location"
+          className="w-full p-2 pl-10 text-sm text-gray-700"
+        />
+        <ul className="flex flex-col">
+          {filteredItineraries
+           .slice(itineraryIndexOfFirst, itineraryIndexOfLast)
+           .map((itinerary) => (
+              <li key={itinerary._id} className="flex justify-between mb-2">
+                <div>
+                  <strong>{itinerary.title}</strong>
+                  <br />
+                  <span className="text-gray-600">{itinerary.location}</span>
+                  <br />
+                  <span className="text-gray-600">
+                    Likes: {itinerary.likes.length} | Comments: {itinerary.comments.length}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <button
+                    onClick={() => handleDeleteItinerary(itinerary._id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
             ))}
-        </div>
-      </ul>
+          <div className="flex justify-center mb-4">
+            {Array(Math.ceil(itineraries.length / itineraryPerPage))
+             .fill()
+             .map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => paginateItineraries(index + 1)}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mx-2"
+                >
+                  {index + 1}
+                </button>
+              ))}
+          </div>
+        </ul>
+      </section>
     </div>
   );
 }

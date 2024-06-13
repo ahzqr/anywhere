@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
 
 export default function FeedPage({ user }) {
   const [feed, setFeed] = useState({ posts: [], itineraries: [] });
@@ -101,9 +103,19 @@ export default function FeedPage({ user }) {
     return (
       <div>
         {isLiked ? (
-          <button onClick={() => handleUnlike(id, type)}>Unlike</button>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleUnlike(id, type)}
+          >
+            Unlike
+          </button>
         ) : (
-          <button onClick={() => handleLike(id, type)}>Like</button>
+          <button
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => handleLike(id, type)}
+          >
+            Like
+          </button>
         )}
       </div>
     );
@@ -115,141 +127,215 @@ export default function FeedPage({ user }) {
 
   return (
     <div>
-      <button>
-        <Link to="/post">Add New Post </Link>
-      </button>
-      <h2>Your Feed</h2>
+      <div className="feed-header">
+        <button>
+          <Link to="/post">Add New Post </Link>
+        </button>
+        <h2>Your Feed</h2>
+      </div>
       {feed.posts.length === 0 && feed.itineraries.length === 0 ? (
         <p>No posts to display</p>
       ) : (
         <div>
           {feed.posts.map((post) => (
-            <div key={post._id}>
-              <h5>
-                <Link to={`/profile/${post.user._id}`}>
+            <div key={post._id} className="post-box">
+              <div className="post-content">
+                <div className="post-header" style={{ textAlign: "center" }}>
                   <img
                     src={post.user.profilepic}
-                    style={{ width: "32px", height: "32px" }}
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      display: "block",
+                      margin: "0 auto",
+                    }}
+                    alt={post.user.username}
                   />
-                  <strong>{post.user.username}</strong>
-                </Link>
-              </h5>
-              <p>{post.location}</p>
-              {post.images.map((image, index) => (
-                <img key={index} src={image} alt={`Image ${index}`} />
-              ))}
-              <p>
-                {new Date(post.travelDates.start).toLocaleDateString()} -{" "}
-                {new Date(post.travelDates.end).toLocaleDateString()}
-              </p>
-              <p>{post.caption}</p>
-              <p>{post.experienceType}</p>
-              <p>{post.tips}</p>
-              <FetchLikes id={post._id} type="posts" user={user} />
-              <p>Likes: {post.likes.length}</p>
-              <button onClick={() => handleSave(post._id, "posts")}>
-                Save
-              </button>
-              <button onClick={() => handleUnsave(post._id, "posts")}>
-                Unsave
-              </button>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Add a comment"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleAddComment(post._id, "posts", e.target.value);
-                      e.target.value = "";
-                    }
-                  }}
-                />
-              </div>
-
-              {post.comments.map((comment) => (
-                <div key={comment._id}>
+                  <div className="post-header-text">
+                    <strong>{post.user.username}</strong>
+                    <p>
+                      <i>{post.location}</i>
+                    </p>
+                  </div>
+                </div>
+                <Carousel>
+                  {post.images.map((image, index) => (
+                    <div key={index}>
+                      <img
+                        src={image}
+                        alt={`Image ${index}`}
+                        style={{
+                          maxWidth: "50%",
+                          maxHeight: "50%",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
+                  ))}
+                </Carousel>
+                <p>❤️ {post.likes.length} likes</p>
+                <br />
+                <div className="post-actions flex justify-center mb-4">
+                  <FetchLikes id={post._id} type="posts" user={user} />
+                  <button
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ml-2"
+                    onClick={() => handleSave(post._id, "posts")}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ml-2"
+                    onClick={() => handleUnsave(post._id, "posts")}
+                  >
+                    Unsave
+                  </button>
+                </div>
+                <div className="post-details">
                   <p>
-                    <Link to={`/profile/${comment.user._id}`}>
-                      <strong>{comment.user.username}</strong>
-                    </Link>{" "}
-                    : {comment.content}
+                    <strong>Travel Dates:</strong>{" "}
+                    {new Date(post.travelDates.start).toLocaleDateString()} -{" "}
+                    {new Date(post.travelDates.end).toLocaleDateString()}
+                  </p>
+                  <p>
+                    <strong>Caption:</strong> {post.caption}
+                  </p>
+                  <p>
+                    <strong>Experience Type:</strong> {post.experienceType}
+                  </p>
+                  <p>
+                    <strong>Tips:</strong> {post.tips}
                   </p>
                 </div>
-              ))}
+                <div className="comments-container">
+                  <div className="comments-box bg-white p-4 mb-4 rounded shadow-md">
+                    {post.comments.map((comment) => (
+                      <p key={comment._id} className="text-left mb-2">
+                        <Link to={`/profile/${comment.user._id}`}>
+                          <strong className="text-blue-600">
+                            {comment.user.username}
+                          </strong>
+                        </Link>{" "}
+                        : {comment.content}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="add-comment-box bg-white p-4 mb-4 rounded shadow-md">
+                    <input
+                      type="text"
+                      placeholder="Add a comment"
+                      className="w-full pl-4 pr-4 py-2 text-left"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleAddComment(post._id, "posts", e.target.value);
+                          e.target.value = "";
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
           {feed.itineraries.map((itinerary) => (
-            <div key={itinerary._id}>
-              <h5>
-                <Link to={`/profile/${itinerary.user._id}`}>
-                <img
+            <div key={itinerary._id} className="post-box">
+              <div className="post-content">
+                <div className="post-header">
+                  <img
                     src={itinerary.user.profilepic}
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                    }}
                     alt={itinerary.user.username}
-                    style={{ width: "32px", height: "32px" }}
-                  /><strong>{itinerary.user.username}</strong>
-                </Link>
-              </h5>
-              <p>{itinerary.title}</p>
-              <p>{itinerary.location}</p>
-              <img src={itinerary.coverPhoto} alt={itinerary.title} />
-              <p>
-                {new Date(itinerary.travelDates.start).toLocaleDateString()} -{" "}
-                {new Date(itinerary.travelDates.end).toLocaleDateString()}
-              </p>
-              <p>{itinerary.description}</p>
-              <p>{itinerary.experienceType}</p>
-              <p>{itinerary.plan}</p>
-              {/* <div>
-                {itinerary.plan.map((dayPlan, index) => (
-                  <div key={index}>
-                    <h4>Day {index + 1}</h4>
-                    <p>Date: {new Date(dayPlan.date).toLocaleDateString()}</p>
-                    <p>Location: {dayPlan.location}</p>
-                    <ul>
-                      {dayPlan.activities.map((activity, idx) => (
-                        <li key={idx}>{activity}</li>
-                      ))}
-                    </ul>
+                  />
+                  <div className="post-header-text">
+                    <strong>{itinerary.user.username}</strong>
+                    <p>{itinerary.location}</p>
                   </div>
-                ))}
-              </div> */}
-              <FetchLikes id={itinerary._id} type="itineraries" user={user} />
-              <p>Likes: {itinerary.likes.length}</p>
-              <button onClick={() => handleSave(itinerary._id, "itineraries")}>
-                Save
-              </button>
-              <button
-                onClick={() => handleUnsave(itinerary._id, "itineraries")}
-              >
-                Unsave
-              </button>
-              <div>
-                <input
-                  type="text"
-                  placeholder="Add a comment"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleAddComment(
-                        itinerary._id,
-                        "itineraries",
-                        e.target.value
-                      );
-                      e.target.value = "";
-                    }
-                  }}
-                />
-              </div>
-              <div>
-                {itinerary.comments.map((comment) => (
-                  <div key={comment._id}>
-                    <p>
-                      <Link to={`/profile/${comment.user._id}`}>
-                        <strong>{comment.user.username}</strong>
-                      </Link>{" "}
-                      : {comment.content}
-                    </p>
+                </div>
+                <Carousel>
+                  <div>
+                    <img
+                      src={itinerary.coverPhoto}
+                      alt={itinerary.title}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        objectFit: "contain",
+                      }}
+                    />
                   </div>
-                ))}
+                </Carousel>
+                <p>❤️ {itinerary.likes.length} likes</p>
+                <br />
+                <div className="post-actions flex justify-center mb-4">
+                  <FetchLikes
+                    id={itinerary._id}
+                    type="itineraries"
+                    user={user}
+                  />
+                  <button
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ml-2"
+                    onClick={() => handleSave(itinerary._id, "itineraries")}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded ml-2"
+                    onClick={() => handleUnsave(itinerary._id, "itineraries")}
+                  >
+                    Unsave
+                  </button>
+                </div>
+                <div className="post-details">
+                  <p>
+                    <strong>Travel Dates:</strong>{" "}
+                    {new Date(itinerary.travelDates.start).toLocaleDateString()}{" "}
+                    - {new Date(itinerary.travelDates.end).toLocaleDateString()}
+                  </p>
+                  <p>
+                    <strong>Description:</strong> {itinerary.description}
+                  </p>
+                  <p>
+                    <strong>Experience Type:</strong> {itinerary.experienceType}
+                  </p>
+                  <p>
+                    <strong>Plan:</strong> {itinerary.plan}
+                  </p>
+                </div>
+                <div className="comments-container">
+                  <div className="comments-box bg-white p-4 mb-4 rounded shadow-md">
+                    {itinerary.comments.map((comment) => (
+                      <p key={comment._id} className="text-left mb-2">
+                        <Link to={`/profile/${comment.user._id}`}>
+                          <strong className="text-blue-600">
+                            {comment.user.username}
+                          </strong>
+                        </Link>{" "}
+                        : {comment.content}
+                      </p>
+                    ))}
+                  </div>
+                  <div className="add-comment-box bg-white p-4 mb-4 rounded shadow-md">
+                    <input
+                      type="text"
+                      placeholder="Add a comment"
+                      className="w-full pl-4 pr-4 py-2 text-left"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleAddComment(
+                            itinerary._id,
+                            "itineraries",
+                            e.target.value
+                          );
+                          e.target.value = "";
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           ))}
