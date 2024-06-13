@@ -37,7 +37,56 @@ The web app is deployed on Render: https://anywhere-cadu.onrender.com
 
 ## Ideation Sketch
 
-![Wireframe](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/Wireframe.png)
+![Wireframe](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Wireframe.png)
+
+<br>
+
+## App Components
+
+**Sign Up Authentication** 
+![Signup](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Sign%20Up.png)
+
+**Admin Dashboard**
+***Manage Users***
+![Manage Users](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/User%20Admin.png)
+
+***Manage Posts***
+![Manage Posts](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Posts%20Admin.png)
+
+***Manage Itineraries***
+![Manage Itineraries](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Itineraries%20Admin.png)
+
+**Feed by Following** 
+![Feed](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Post%20Feed.png)
+
+**Profile Page**
+***Current User Profile***
+![Current User](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/User%20Profile.png)
+
+***Other User Profile***
+![Other User](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Follow%20Profile.png)
+
+**Edit Profile** 
+![Edit Profile](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Edit%20Profile.png)
+
+**Create Post** 
+![Create Post](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Create%20Post.png)
+
+<br>
+
+## CRUD (FETCH)
+
+**Create** 
+![Create](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Create.png)
+
+**Read** 
+![Read](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Read.png)
+
+**Update** 
+![Update](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Update.png)
+
+**Delete** 
+![Delete](https://github.com/ahzqr/anywhere/blob/8503fa7628fd06dd3e4fcf08a8b79703ab39801b/assets/Delete.png)
 
 <br>
 
@@ -45,47 +94,19 @@ The web app is deployed on Render: https://anywhere-cadu.onrender.com
 Using the plan and pseudocodes, I broke down the project into stages:
 - [x] **Step 1:** Ideation Stage
 - [x] **Step 2:** Create all the Controllers & Routes needed
-- [x] **Step 3:** Create the web page
+- [x] **Step 3:** Create the Pages & Components
 - [x] **Step 4:** Finalise web page flow
-- [ ] **Step 5:** Style Web Page
+- [x] **Step 5:** Style Web Page
 
 <br>
 
 ## Key Learnings
-1. Important to study the APIs thoroughly to fetch the necessary information.
+1. Important to categorise components and work on it
 
-2. While overwhelmed, prioritising the critical components first is key to moving forward.
+2. Prioritise which are essentials, which are add ons
 
-3. Create components to better organise your code to visualise it better.
+3. Uploading Files requires a file hosting site to get the URL, then you can store inside your database
 
-<br>
-
-## Breakdown & Analysis of the Codes
-Below is a breakdown and analysis of some of the codes which I have categorised according to the concepts we have covered in class.
-
-<!-- ### Routing
-Routing to the necessary pages.
-
-![Routing](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/Routing.png)
-
-### UseState
-To update the state of the information that we are seeking.
-
-![UseState](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/useState.png)
-
-### Fetch & UseEffect
-Fetching APIs to retrieve information.
-
-![Fetch](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/Fetch%20API.png)
-
-### Passing Props
-
-![Fetching in Carpark & Defining Props](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/Define%20Prop.png)
-![Passing Props to CarparkButtons](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/Pass%20Props.png)
-
-### POST to Airtable
-
-![Community POST](https://github.com/ahzqr/travel-sg/blob/6452ca799d40e4b514c2b7cf7511f45f8cc157a2/public/POST.png) -->
 
 <br>
 
@@ -94,4 +115,5 @@ As this is created for a project submission, there might be no future iterations
 
 - Make the web more user-friendly
 - Use Maps for Location Tagging
-- Complete the itinerary
+- Complete the Itinerary Portion
+- Create DMs to communicate between users
